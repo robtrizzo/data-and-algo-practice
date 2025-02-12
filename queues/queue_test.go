@@ -7,9 +7,9 @@ import (
 
 func TestEnqueue(t *testing.T) {
 	q := Queue[int]{}
-	assert.Equal(t, 0, q.length)
+	assert.Equal(t, 0, q.Length)
 	q.Enqueue(1)
-	assert.Equal(t, 1, q.length)
+	assert.Equal(t, 1, q.Length)
 	assert.Equal(t, 1, q.head.value)
 	assert.Equal(t, 1, q.tail.value)
 }
@@ -30,10 +30,10 @@ func TestDequeue(t *testing.T) {
 	val, err := q.Dequeue()
 	assert.NilError(t, err)
 	assert.Equal(t, val, 1)
-	assert.Equal(t, q.length, 1)
+	assert.Equal(t, q.Length, 1)
 
 	val, err = q.Dequeue()
 	assert.NilError(t, err)
 	assert.Equal(t, val, 2)
-	assert.Equal(t, q.length, 0)
+	assert.Equal(t, q.Length, 0)
 }

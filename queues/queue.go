@@ -10,21 +10,21 @@ type Node[T any] struct {
 }
 
 type Queue[T any] struct {
-	length int
+	Length int
 	head   *Node[T]
 	tail   *Node[T]
 }
 
 func (q *Queue[T]) Enqueue(val T) {
 	node := Node[T]{value: val}
-	if q.length == 0 {
+	if q.Length == 0 {
 		q.head = &node
 		q.tail = &node
-		q.length = 1
+		q.Length = 1
 	} else {
 		q.tail.next = &node
 		q.tail = &node
-		q.length++
+		q.Length++
 	}
 }
 
@@ -36,7 +36,7 @@ func (q *Queue[T]) Dequeue() (T, error) {
 		return zero, ErrQueueEmpty
 	}
 
-	q.length--
+	q.Length--
 
 	head := q.head
 	q.head = q.head.next
