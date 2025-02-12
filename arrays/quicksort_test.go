@@ -1,4 +1,4 @@
-package sorts
+package arrays
 
 import (
 	"robtrizzo/data-and-algo-practice/internal/assert"

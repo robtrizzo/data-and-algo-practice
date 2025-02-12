@@ -1,4 +1,4 @@
-package sorts
+package arrays
 
 func qs(arr *[]int, lo int, hi int) {
 	if lo >= hi {
@@ -18,9 +18,7 @@ func partition(arr *[]int, lo int, hi int) int {
 	for i := lo; i < hi; i++ {
 		if (*arr)[i] <= pivot {
 			idx++
-			tmp := (*arr)[i]
-			(*arr)[i] = (*arr)[idx]
-			(*arr)[idx] = tmp
+			swap(arr, i, idx)
 		}
 	}
 
