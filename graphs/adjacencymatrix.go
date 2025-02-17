@@ -10,30 +10,6 @@ type WeightedAdjacencyMatrix struct {
 	matrix   [][]int
 }
 
-func NewWeightedAdjacencyMatrix(vertices int) *WeightedAdjacencyMatrix {
-	matrix := make([][]int, vertices)
-	for i := range matrix {
-		matrix[i] = make([]int, vertices)
-	}
-	return &WeightedAdjacencyMatrix{vertices, matrix}
-}
-
-func initSeen(len int) []bool {
-	seen := make([]bool, len)
-	for i := range seen {
-		seen[i] = false
-	}
-	return seen
-}
-
-func initPrev(len int) []int {
-	prev := make([]int, len)
-	for i := range prev {
-		prev[i] = -1
-	}
-	return prev
-}
-
 func (wam *WeightedAdjacencyMatrix) BFS(source int, needle int) ([]int, error) {
 	seen := initSeen(wam.vertices)
 	prev := initPrev(wam.vertices)
