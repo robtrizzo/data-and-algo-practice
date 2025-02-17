@@ -22,3 +22,17 @@ func TestDFS(t *testing.T) {
 	path = wal.DFS(1, 4)
 	assert.ArraysEqual(t, path, []int{1, 0, 2, 3, 4})
 }
+
+func TestDSP(t *testing.T) {
+	var edges [][]Edge
+	edges = append(edges, []Edge{{to: 1, w: 1}, {to: 2, w: 5}})
+	edges = append(edges, []Edge{{to: 2, w: 6}, {to: 3, w: 7}})
+	edges = append(edges, []Edge{{to: 4, w: 1}})
+	edges = append(edges, []Edge{{to: 2, w: 1}})
+	edges = append(edges, []Edge{})
+	wal := WeightedAdjacencyList{
+		edges: edges,
+	}
+	path := wal.DSP(0, 4)
+	assert.ArraysEqual(t, path, []int{0, 2, 4})
+}

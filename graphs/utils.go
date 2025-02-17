@@ -1,5 +1,7 @@
 package graphs
 
+import "math"
+
 func initSeen(len int) []bool {
 	seen := make([]bool, len)
 	for i := range seen {
@@ -14,4 +16,12 @@ func initPrev(len int) []int {
 		prev[i] = -1
 	}
 	return prev
+}
+
+func initDists(len int) []int {
+	dists := make([]int, len)
+	for i := range dists {
+		dists[i] = math.MaxInt32
+	}
+	return dists
 }
