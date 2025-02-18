@@ -7,10 +7,10 @@ import (
 
 func TestDFS(t *testing.T) {
 	var edges [][]Edge
-	edges = append(edges, []Edge{{to: 1, w: 1}, {to: 2, w: 4}, {to: 3, w: 5}})
-	edges = append(edges, []Edge{{to: 0, w: 1}})
-	edges = append(edges, []Edge{{to: 3, w: 2}})
-	edges = append(edges, []Edge{{to: 4, w: 5}})
+	edges = append(edges, []Edge{{To: 1, W: 1}, {To: 2, W: 4}, {To: 3, W: 5}})
+	edges = append(edges, []Edge{{To: 0, W: 1}})
+	edges = append(edges, []Edge{{To: 3, W: 2}})
+	edges = append(edges, []Edge{{To: 4, W: 5}})
 	edges = append(edges, []Edge{})
 	wal := WeightedAdjacencyList{
 		edges: edges,
@@ -25,14 +25,29 @@ func TestDFS(t *testing.T) {
 
 func TestDSP(t *testing.T) {
 	var edges [][]Edge
-	edges = append(edges, []Edge{{to: 1, w: 1}, {to: 2, w: 5}})
-	edges = append(edges, []Edge{{to: 2, w: 6}, {to: 3, w: 7}})
-	edges = append(edges, []Edge{{to: 4, w: 1}})
-	edges = append(edges, []Edge{{to: 2, w: 1}})
+	edges = append(edges, []Edge{{To: 1, W: 1}, {To: 2, W: 5}})
+	edges = append(edges, []Edge{{To: 2, W: 6}, {To: 3, W: 7}})
+	edges = append(edges, []Edge{{To: 4, W: 1}})
+	edges = append(edges, []Edge{{To: 2, W: 1}})
 	edges = append(edges, []Edge{})
 	wal := WeightedAdjacencyList{
 		edges: edges,
 	}
 	path := wal.DSP(0, 4)
+	assert.ArraysEqual(t, path, []int{0, 2, 4})
+}
+
+func TestDSPHeap(t *testing.T) {
+	var edges [][]Edge
+	edges = append(edges, []Edge{{To: 1, W: 1}, {To: 2, W: 5}})
+	edges = append(edges, []Edge{{To: 2, W: 6}, {To: 3, W: 7}})
+	edges = append(edges, []Edge{{To: 4, W: 1}})
+	edges = append(edges, []Edge{{To: 2, W: 1}})
+	edges = append(edges, []Edge{})
+	wal := WeightedAdjacencyList{
+		edges: edges,
+	}
+	path, err := wal.DSP_Heap(0, 4)
+	assert.NilError(t, err)
 	assert.ArraysEqual(t, path, []int{0, 2, 4})
 }

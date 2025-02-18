@@ -10,8 +10,8 @@ type WeightedAdjacencyList struct {
 }
 
 type Edge struct {
-	to int
-	w  int
+	To int
+	W  int
 }
 
 func (wal *WeightedAdjacencyList) walk(curr int, needle int, seen *[]bool, path *[]int) bool {
@@ -28,7 +28,7 @@ func (wal *WeightedAdjacencyList) walk(curr int, needle int, seen *[]bool, path 
 	list := wal.edges[curr]
 	for i := 0; i < len(list); i++ {
 		edge := list[i]
-		if wal.walk(edge.to, needle, seen, path) {
+		if wal.walk(edge.To, needle, seen, path) {
 			return true
 		}
 	}
@@ -87,14 +87,14 @@ func (wal *WeightedAdjacencyList) DSP(source int, sink int) []int {
 		adjs := wal.edges[curr]
 		for i := 0; i < len(adjs); i++ {
 			edge := adjs[i]
-			if seen[edge.to] {
+			if seen[edge.To] {
 				continue
 			}
 
-			dist := dists[curr] + edge.w
-			if dist < dists[edge.to] {
-				dists[edge.to] = dist
-				prev[edge.to] = curr
+			dist := dists[curr] + edge.W
+			if dist < dists[edge.To] {
+				dists[edge.To] = dist
+				prev[edge.To] = curr
 			}
 		}
 	}
@@ -110,4 +110,54 @@ func (wal *WeightedAdjacencyList) DSP(source int, sink int) []int {
 	out = append(out, source)
 	slices.Reverse(out)
 	return out
+}
+
+func (wal *WeightedAdjacencyList) DSP_Heap(source int, sink int) ([]int, error) {
+	var prev, dists []int
+	vmh := NewVertexMinHeap()
+	for i := range wal.edges {
+		prev = append(prev, -1)
+		dists = append(dists, math.MaxInt64)
+		vmh.Insert(vertex{val: i, distance: dists[i]})
+	}
+
+	dists[source] = 0
+	vmh.Insert(vertex{val: source, distance: 0})
+
+	for vmh.Length > 0 {
+		v, err := vmh.Delete()
+		if err != nil {
+			return []int{}, err
+		}
+
+		curr := v.val
+
+		adjs := wal.edges[curr]
+		for i := 0; i < len(adjs); i++ {
+			edge := adjs[i]
+
+			dist := dists[curr] + edge.W
+			if dist < dists[edge.To] {
+				dists[edge.To] = dist
+				prev[edge.To] = curr
+
+				idx := vmh.Index[edge.To]
+				vmh.Data[idx].distance = dist
+				vmh.heapifyUp(idx)
+				vmh.heapifyDown(idx)
+			}
+		}
+	}
+
+	var out []int
+	curr := sink
+
+	for prev[curr] != -1 {
+		out = append(out, curr)
+		curr = prev[curr]
+	}
+
+	out = append(out, source)
+	slices.Reverse(out)
+	return out, nil
 }

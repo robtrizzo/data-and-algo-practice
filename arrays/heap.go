@@ -1,22 +1,8 @@
 package arrays
 
-import "errors"
-
 type MinHeap struct {
 	Length int
 	data   []int
-}
-
-func parent(idx int) int {
-	return (idx - 1) / 2
-}
-
-func leftChild(idx int) int {
-	return idx*2 + 1
-}
-
-func rightChild(idx int) int {
-	return idx*2 + 2
 }
 
 func (mh *MinHeap) heapifyUp(idx int) {
@@ -26,18 +12,18 @@ func (mh *MinHeap) heapifyUp(idx int) {
 
 	v := mh.data[idx]
 
-	p := parent(idx)
+	p := Parent(idx)
 	pv := mh.data[p]
 
 	if pv > v {
-		swap(&mh.data, p, idx)
+		Swap(&mh.data, p, idx)
 		mh.heapifyUp(p)
 	}
 }
 
 func (mh *MinHeap) heapifyDown(idx int) {
-	lIdx := leftChild(idx)
-	rIdx := rightChild(idx)
+	lIdx := LeftChild(idx)
+	rIdx := RightChild(idx)
 
 	if idx >= mh.Length || lIdx >= mh.Length {
 		return
@@ -48,10 +34,10 @@ func (mh *MinHeap) heapifyDown(idx int) {
 	v := mh.data[idx]
 
 	if lv > rv && v > rv {
-		swap(&mh.data, idx, rIdx)
+		Swap(&mh.data, idx, rIdx)
 		mh.heapifyDown(rIdx)
 	} else if rv > lv && v > lv {
-		swap(&mh.data, idx, lIdx)
+		Swap(&mh.data, idx, lIdx)
 		mh.heapifyDown(lIdx)
 	}
 }
@@ -61,8 +47,6 @@ func (mh *MinHeap) Insert(val int) {
 	mh.heapifyUp(mh.Length)
 	mh.Length++
 }
-
-var ErrDeleteFromEmpty = errors.New("cannot delete from empty heap")
 
 func (mh *MinHeap) Delete() (int, error) {
 	if mh.Length == 0 {

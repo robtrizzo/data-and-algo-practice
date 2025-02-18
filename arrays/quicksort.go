@@ -18,7 +18,7 @@ func partition(arr *[]int, lo int, hi int) int {
 	for i := lo; i < hi; i++ {
 		if (*arr)[i] <= pivot {
 			idx++
-			swap(arr, i, idx)
+			Swap(arr, i, idx)
 		}
 	}
 
